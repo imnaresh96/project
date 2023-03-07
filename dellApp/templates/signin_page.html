@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block main_content %}
+<!-- THEME CONFIGURATION -->
+            <script>
+                let themeAttrs = document.documentElement.dataset;
+            
+                for(let attr in themeAttrs) {
+                    if(localStorage.getItem(attr) != null) {
+                        document.documentElement.dataset[attr] = localStorage.getItem(attr);
+            
+                        if (theme === 'auto') {
+                            document.documentElement.dataset.theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            
+                            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                                e.matches ? document.documentElement.dataset.theme = 'dark' : document.documentElement.dataset.theme = 'light';
+                            });
+                        }
+                    }
+                }
+            </script>
+        <!-- MAIN CONTENT -->
+        <main class="container">
+            <div class="row align-items-center justify-content-center vh-100">
+                <div class="col-11 col-sm-8 col-md-6 col-lg-5 col-xl-4 col-xxl-3 py-6">
+
+                    <!-- Title -->
+                    <h1 class="mb-2 text-center">
+                        Sign In
+                    </h1>
+
+                    <!-- Subtitle -->
+                    <p class="text-secondary text-center">
+                        Enter your email address and password to access admin panel
+                    </p>
+                    {% if error %}
+                    <h2 style="color:red">{{error}}</h2>
+                    {% endif %}
+
+                    <!-- Form -->
+                    <form method="post" action="{% url 'signin' %}">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-4">
+
+                                    <!-- Label -->
+                                    <label class="form-label">
+                                        Email Address
+                                    </label>
+    
+                                    <!-- Input -->
+                                    <input type="email" class="form-control" name="email" placeholder="Your email address">
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <!-- Password -->
+                                <div class="mb-4">
+
+                                    <div class="row">
+                                        <div class="col">
+
+                                            <!-- Label -->
+                                            <label class="form-label">
+                                                Password
+                                            </label>
+                                        </div>
+
+                                        <div class="col-auto">
+                                            
+                                            <!-- Help text -->
+                                            <a href="{% url 'forgot_page' %}" class="form-text small text-muted link-primary">Forgot password</a>
+                                        </div>
+                                    </div> <!-- / .row -->
+    
+                                    <!-- Input -->
+                                    <div class="input-group input-group-merge">
+                                        <input type="password" name="password" class="form-control" autocomplete="off" data-toggle-password-input placeholder="Your password">
+                                        
+                                        <button type="button" class="input-group-text px-4 text-secondary link-primary" data-toggle-password></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- / .row -->
+
+                        <div class="form-check">
+
+                            <!-- Input -->
+                            <input type="checkbox" class="form-check-input" id="remember">
+
+                            <!-- Label -->
+                            <label class="form-check-label" for="remember">
+                                Remember me
+                            </label>
+                        </div>
+
+                        <div class="row align-items-center text-center">
+                            <div class="col-12">
+
+                                <!-- Button -->
+                                <button type="submit" class="btn w-100 btn-primary mt-6 mb-2">Sign in</button>
+                            </div>
+
+                            <div class="col-12">
+
+                                
+                                <small class="mb-0 text-muted">Don't have an account yet? <a href="{% url 'signup_page' %}" class="fw-semibold">Sign up</a></small>
+                            </div>
+                        </div> 
+                    </form>
+                </div>
+            </div> 
+        </main> 
+        <script src="assets/js/theme.bundle.js"></script>  
+{% endblock %}
