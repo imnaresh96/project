@@ -22,9 +22,12 @@ def profile_page(request):
     if 'email' in request.session:
         if load_data(request):
             print('successful')
-            return render (request,'profile_page.html')
-    print("data not available")
-    return redirect (signin_page)
+            return render (request,'profile_page.html',data)
+        else:
+            print("data not available")
+            return redirect (signin_page)
+    else:
+        return redirect(signin_page)
 
 
 # Signup Functionality
@@ -69,14 +72,59 @@ def signin(request):
 def load_data(request):
     print(request.POST)     
     master=Master.objects.get(Email=request.session['email'])
-    user_profile=User_Profile.objects.get(Master=master)
+    profile=User_Profile.objects.get(Master=master)
 
-    user_profile.full_name=User_Profile.FullName
-    # user_profile.last_name=User_Profile.FullName.split()[1]
-    # user_profile.birthdate=User_Profile.BirthDate.strftime("%Y-%m-%d")
-    user_profile.mobile=User_Profile.Mobile
-    user_profile.address=User_Profile.Address
-    user_profile.gender=User_Profile.Gender
+    profile.Image=profile.Image
+    profile.first_name=profile.Full_Name.split()[0]
+    profile.last_name=profile.Full_Name.split()[1]
+    profile.birthdate=profile.BirthDate.strftime("%Y-%m-%d")
+    profile.mobile=profile.Mobile
+    profile.address=profile.Address
+    profile.gender=profile.Gender
+    profile.birthdate=profile.birthdate
+    # profile.zipcode=profile.zipcode
 
-    data['user_data']=user_profile
+    data['user_data']=profile
+    
+    return redirect(profile_page)
+    
+# # load profile student data
+# def profile_data(request):
+#     master = Master.objects.get(Email = request.session['email'])
+#     profile = User_Profile.objects.get(Master = master)
+#     # user_roll=us.objects.get(Common=profile)
+
+#     profile.first_name = profile.Full_Name.split()[0]
+#     profile.last_name = profile.Full_Name.split()[1]
+#     # user_roll.roll_number = user_roll.Roll_Number
+#     profile.BirthDate = profile.BirthDate.strftime("%Y-%m-%d")
+#     # profile.DateOfJoining = profile.DateOfJoining.strftime("%Y-%m-%d")
+
+#     data['user_data'] = profile
+#     # data['roll_user']=user_roll
+
+#     return redirect(profile_page)
+
+#password reset Functionality
+def password_reset(request):
+    master=Master.objects.get(Email=request.session['email'])
+    if master.Password==request.POST['current_password']:
+        if request.POST['new_password']==request.POST['confirm_password']:
+            master.Password=request.POST['new_password']
+            master.save()
+            {'error':'password Change Successfully'}
+            print('password Change Successfully')
+            return render(request,'profile_page.html',{'error':'password Change Successfully'})
+            # return redirect(profile_page)
+            
+        else:
+            {'error':'Both Password Should Be Same'}
+            print('Both Password Should Be Same')
+            return render(request,'profile_page.html',{'error':'Both Password Should Be Same'})
+            # return redirect(profile_page)
+    else:
+        {'error':'Wrong Current Password'}
+        print('Wrong Current Password')
+        return render (request,'profile_page.html',{'error':'Wrong Current Password'})
+        # return redirect(profile_page)
     

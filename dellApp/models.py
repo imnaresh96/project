@@ -21,8 +21,8 @@ Gender_Choices=(
 class User_Profile(models.Model):
     Master= models.ForeignKey(Master, on_delete=models.CASCADE)
 
-    Profile=models.FileField(upload_to='profiles/',default='default_icon.png')
-    FullName=models.CharField(max_length=25)
+    Image=models.FileField(upload_to='profiles/',default='default_icon.png')
+    Full_Name=models.CharField(max_length=25)
     Gender=models.CharField(max_length=5,choices=Gender_Choices,default=str())
     BirthDate=models.DateField(default='2022-08-25')
     Mobile=models.CharField(max_length=10)
@@ -32,4 +32,4 @@ class User_Profile(models.Model):
         db_table="User_Profile"
     
     def __str__(self)->str:
-        return self.FullName
+        return self.Full_Name

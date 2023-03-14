@@ -11,4 +11,6 @@ urlpatterns=[
     path('signup/',signup, name='signup'),
     path('signin/',signin, name='signin'),
     path('load_data/',load_data, name='load_data'),
+    path('password_reset/',password_reset, name='password_reset'),
+    # path('profile_data/',profile_data, name='profile_data'),
 ]
