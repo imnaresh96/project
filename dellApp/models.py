@@ -23,7 +23,7 @@ class User_Profile(models.Model):
 
     Image=models.FileField(upload_to='profiles/',default='default_icon.png')
     Full_Name=models.CharField(max_length=25)
-    Gender=models.CharField(max_length=5,choices=Gender_Choices,default=str())
+    Gender=models.CharField(max_length=5,choices=Gender_Choices,default=str(),blank=True)
     BirthDate=models.DateField(default='2022-08-25')
     Mobile=models.CharField(max_length=10)
     Address=models.CharField(max_length=100)
