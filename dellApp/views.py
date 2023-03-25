@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .models import *
 from django.db.utils import IntegrityError
 
+
 # Create your views here.
 data={}
 data['gender_choice_option']=[]
